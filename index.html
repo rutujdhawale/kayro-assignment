@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kayro Nourish</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================================== -->
+  <!-- ROUTE 1: CLIENT APP ("/")                      -->
+  <!-- ============================================== -->
+  <main class="page-view" id="viewClient">
+    <div class="client-container">
+      
+      <!-- 1. Fresh Visitor Landing: About Doctor & Direct Booking -->
+      <section class="doctor-profile-card" id="doctorIntroSection">
+        <div class="doctor-profile-header">
+          <div class="doctor-avatar">MS</div>
+          <div>
+            <h1 class="doctor-name">Dr. Maya Sen</h1>
+            <p class="doctor-credentials">M.Sc. Clinical Nutrition • 10+ yrs experience</p>
+          </div>
+        </div>
+
+        <p class="doctor-bio">
+          Evidence-based, mindful nutritional therapy tailored to your biology and daily rhythm. Specializing in sustainable metabolic health, gut balance, and lifestyle harmony.
+        </p>
+
+        <div class="doctor-highlights">
+          <div class="highlight-item">
+            <span class="highlight-icon">⏱️</span>
+            <div>
+              <strong>30-Min Sessions</strong>
+              <p>Personalized 1-on-1</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🌿</span>
+            <div>
+              <strong>In-Person & Virtual</strong>
+              <p>Clinic visit or video call</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="doctor-cta-wrap">
+          <button type="button" class="btn-primary full-width" onclick="window.openBookingModal()">Book an appointment</button>
+        </div>
+
+        <div class="existing-client-prompt">
+          <span>Already have an appointment?</span>
+          <button type="button" class="link-switch" id="btnEnterExistingPhone">View my consultations</button>
+        </div>
+      </section>
+
+      <!-- 2. Client Personal View (Active Phone Session) -->
+      <div id="clientPersonalView" style="display: none;">
+        <!-- Subtle phone identification -->
+        <div class="client-account-row">
+          <span class="account-label" id="clientPhoneLabel">Phone: +91 98200 11111</span>
+          <div class="account-actions">
+            <button type="button" class="account-switch-btn" id="btnSwitchPhone">Switch number</button>
+            <span class="footer-dot">·</span>
+            <button type="button" class="account-switch-btn text-muted" id="btnExitClient">Exit</button>
+          </div>
+        </div>
+
+        <!-- Greeting & intro -->
+        <header class="client-header">
+          <h2 class="greeting-heading" id="greetingTitle">Hey, there</h2>
+          <p class="greeting-sub">Consultations with Dr. Maya Sen</p>
+        </header>
+
+        <!-- Next upcoming consultation -->
+        <section class="section-block" id="nextConsultationSection">
+          <!-- Injected via app.js -->
+        </section>
+
+        <!-- Primary Action -->
+        <div class="cta-wrap">
+          <button type="button" class="btn-primary full-width" id="btnOpenBooking">Book another consultation</button>
+        </div>
+
+        <!-- Upcoming list -->
+        <section class="section-block">
+          <h2 class="section-title">Upcoming</h2>
+          <div class="appointment-list" id="upcomingList"></div>
+        </section>
+
+        <!-- Past consultations (collapsed by default) -->
+        <details class="past-details" id="pastSection">
+          <summary class="past-summary">Past consultations (<span id="pastCount">0</span>)</summary>
+          <div class="appointment-list pt-2" id="pastList"></div>
+        </details>
+      </div>
+
+      <!-- Quiet footer -->
+      <footer class="page-footer">
+        <a href="#dashboard" class="quiet-link" id="linkToDashboard">Nutritionist view</a>
+        <span class="footer-dot">·</span>
+        <a href="/api/appointments" target="_blank" class="quiet-link">API endpoint</a>
+      </footer>
+
+    </div>
+  </main>
+
+
+  <!-- ============================================== -->
+  <!-- ROUTE 2: NUTRITIONIST DASHBOARD ("/dashboard") -->
+  <!-- ============================================== -->
+  <main class="page-view" id="viewDashboard" style="display: none;">
+    <div class="dashboard-container">
+      
+      <!-- Dashboard header & controls -->
+      <header class="dashboard-header">
+        <div>
+          <h1 class="dashboard-heading">Consultations</h1>
+          <p class="dashboard-sub">Dr. Maya Sen</p>
+        </div>
+        <div class="dashboard-actions">
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn active" id="filterAll">All</button>
+            <button type="button" class="toggle-btn" id="filterToday">Today</button>
+          </div>
+          <button type="button" class="btn-secondary" id="btnDownloadExcel">Download Excel</button>
+          <button type="button" class="btn-secondary" id="btnOpenAddManual">+ Add appointment</button>
+        </div>
+      </header>
+
+      <!-- Mobile cards view (< md) -->
+      <div class="dashboard-cards-wrap" id="dashboardCards"></div>
+
+      <!-- Desktop table view (>= md) -->
+      <div class="dashboard-table-wrap">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Phone</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Check-in</th>
+              <th>Reminder</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Quiet footer with API endpoint link -->
+      <footer class="page-footer">
+        <a href="#" class="quiet-link" id="linkToClient">Client view</a>
+        <span class="footer-dot">·</span>
+        <a href="/api/appointments" target="_blank" class="quiet-link">GET /api/appointments</a>
+        <span class="footer-dot">·</span>
+        <button type="button" class="quiet-link-btn" id="btnResetData">Reset demo data</button>
+      </footer>
+
+    </div>
+  </main>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL: BOOK CONSULTATION                       -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">Book a consultation</h2>
+        <button type="button" class="modal-close-btn" id="btnCloseBooking">✕</button>
+      </div>
+
+      <form id="bookingForm" class="modal-form" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
+        <div class="field">
+          <label for="bookName">Name</label>
+          <input type="text" id="bookName" placeholder="Full name" minlength="2" required />
+        </div>
+
+        <div class="field">
+          <label for="bookPhone">Phone number (10 digits)</label>
+          <div class="phone-input-group">
+            <span class="phone-prefix">+91</span>
+            <input type="tel" id="bookPhone" placeholder="98200 11111" required />
+          </div>
+          <span class="field-hint">Required 10 digits to confirm your spot.</span>
+        </div>
+
+        <div class="field">
+          <label for="bookDate">Date (Past dates disabled)</label>
+          <input type="date" id="bookDate" required />
+        </div>
+
+        <div class="field">
+          <div class="slot-label-row">
+            <label>Available 30-min slots</label>
+            <div class="slot-legend">
+              <span class="legend-item"><span class="dot-free"></span> Free</span>
+              <span class="legend-item"><span class="dot-taken"></span> Taken</span>
+            </div>
+          </div>
+          <div class="slot-grid" id="bookSlotGrid"></div>
+          <input type="hidden" id="bookSelectedSlot" />
+          <span class="field-hint" id="bookSlotHint">Pick a date to view available times.</span>
+        </div>
+
+        <button type="button" class="btn-primary full-width" id="btnSubmitBooking">Confirm booking</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL: RESCHEDULE CONSULTATION                 -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop" id="rescheduleModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">Reschedule consultation</h2>
+        <button type="button" class="modal-close-btn" id="btnCloseReschedule">✕</button>
+      </div>
+
+      <div class="reschedule-info" id="reschedContextText"></div>
+      
+      <!-- One-time reschedule policy note -->
+      <div class="policy-note">
+        <strong>Policy:</strong> A consultation can only be rescheduled once.
+      </div>
+
+      <form id="rescheduleForm" class="modal-form" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
+        <input type="hidden" id="reschedId" />
+
+        <div class="field">
+          <label for="reschedDate">New date</label>
+          <input type="date" id="reschedDate" required />
+        </div>
+
+        <div class="field">
+          <div class="slot-label-row">
+            <label>Select new slot</label>
+            <div class="slot-legend">
+              <span class="legend-item"><span class="dot-free"></span> Free</span>
+              <span class="legend-item"><span class="dot-taken"></span> Taken</span>
+            </div>
+          </div>
+          <div class="slot-grid" id="reschedSlotGrid"></div>
+          <input type="hidden" id="reschedSelectedSlot" />
+          <span class="field-hint" id="reschedSlotHint">Select date to see open times.</span>
+        </div>
+
+        <button type="button" class="btn-primary full-width" id="btnSubmitReschedule">Confirm reschedule</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD APPOINTMENT BY HAND (DASHBOARD)     -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop" id="manualAddModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">Add appointment</h2>
+        <button type="button" class="modal-close-btn" id="btnCloseManualAdd">✕</button>
+      </div>
+
+      <form id="manualAddForm" class="modal-form" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
+        <div class="field">
+          <label for="manualName">Client name</label>
+          <input type="text" id="manualName" placeholder="Client name" minlength="2" required />
+        </div>
+
+        <div class="field">
+          <label for="manualPhone">Phone (10 digits)</label>
+          <div class="phone-input-group">
+            <span class="phone-prefix">+91</span>
+            <input type="tel" id="manualPhone" placeholder="98200 11111" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="manualDate">Date</label>
+          <input type="date" id="manualDate" required />
+        </div>
+
+        <div class="field">
+          <div class="slot-label-row">
+            <label>Available slot</label>
+            <div class="slot-legend">
+              <span class="legend-item"><span class="dot-free"></span> Free</span>
+              <span class="legend-item"><span class="dot-taken"></span> Taken</span>
+            </div>
+          </div>
+          <div class="slot-grid" id="manualSlotGrid"></div>
+          <input type="hidden" id="manualSelectedSlot" />
+          <span class="field-hint" id="manualSlotHint">Select date to view open times.</span>
+        </div>
+
+        <div class="field">
+          <label for="manualStatus">Status</label>
+          <select id="manualStatus">
+            <option value="Booked" selected>Booked</option>
+            <option value="Done">Done</option>
+            <option value="No-show">No-show</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-primary full-width" id="btnSubmitManualAdd">Save appointment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Switch Phone Prompt Modal -->
+  <div class="modal-backdrop" id="switchPhoneModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">View my consultations</h2>
+        <button type="button" class="modal-close-btn" id="btnCloseSwitchPhone">✕</button>
+      </div>
+      <form id="switchPhoneForm" class="modal-form" action="javascript:void(0);" onsubmit="event.preventDefault(); return false;">
+        <div class="field">
+          <label for="switchPhoneInput">Enter your 10-digit phone number</label>
+          <div class="phone-input-group">
+            <span class="phone-prefix">+91</span>
+            <input type="tel" id="switchPhoneInput" placeholder="98200 11111" required />
+          </div>
+        </div>
+        <button type="button" class="btn-primary full-width" id="btnSubmitSwitchPhone">Load consultations</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast message element -->
+  <div class="toast" id="toastMessage"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "apt-1",
+    "clientName": "Riya Shah",
+    "phone": "+91 98200 11111",
+    "date": "2026-10-25",
+    "time": "09:00",
+    "status": "Cancelled",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 1,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-2",
+    "clientName": "Arjun Mehta",
+    "phone": "+91 98200 22222",
+    "date": "2026-10-24",
+    "time": "11:30",
+    "status": "Booked",
+    "confirmedArrival": true,
+    "reminderSent": true,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-3",
+    "clientName": "Riya Shah",
+    "phone": "+91 98200 11111",
+    "date": "2026-10-25",
+    "time": "16:00",
+    "status": "Booked",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 0,
+    "format": "virtual"
+  },
+  {
+    "id": "apt-4",
+    "clientName": "Meera Iyer",
+    "phone": "",
+    "date": "2026-10-23",
+    "time": "09:00",
+    "status": "Done",
+    "confirmedArrival": true,
+    "reminderSent": true,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-5",
+    "clientName": "Kabir Rao",
+    "phone": "+91 98200 33333",
+    "date": "2026-10-22",
+    "time": "14:00",
+    "status": "No-show",
+    "confirmedArrival": false,
+    "reminderSent": true,
+    "rescheduleCount": 0,
+    "format": "virtual"
+  },
+  {
+    "id": "apt-1792756009852",
+    "clientName": "rutuj",
+    "phone": "+91 98200 11119",
+    "date": "2026-10-24",
+    "time": "12:30",
+    "status": "Booked",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-1792756044002",
+    "clientName": "json",
+    "phone": "+91 97944 35555",
+    "date": "2026-10-24",
+    "time": "09:30",
+    "status": "Booked",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-1792756304776",
+    "clientName": "Test User",
+    "phone": "+91 99999 88888",
+    "date": "2026-10-24",
+    "time": "10:00",
+    "status": "Booked",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-1792756866283",
+    "clientName": "Aarav Sharma",
+    "phone": "+91 98123 45678",
+    "date": "2026-10-24",
+    "time": "09:00",
+    "status": "Booked",
+    "confirmedArrival": true,
+    "reminderSent": true,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  },
+  {
+    "id": "apt-1792757030686",
+    "clientName": "Karan Verma",
+    "phone": "+91 98200 99999",
+    "date": "2026-10-24",
+    "time": "10:30",
+    "status": "Booked",
+    "confirmedArrival": false,
+    "reminderSent": false,
+    "rescheduleCount": 0,
+    "format": "in-person"
+  }
+]
