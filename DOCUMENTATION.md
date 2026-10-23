@@ -27,6 +27,7 @@ The assignment data contained real-world inconsistencies:
 - **Inconsistent date formats:** `24/10/2026`, `2026-10-24`, and `25-10-2026`. We built a normalization parser that standardizes all dates into ISO `YYYY-MM-DD` for chronological sorting while presenting clean readable dates (`Sat, Oct 24, 2026`) in the UI.
 - **Inconsistent time formats:** `10:00`, `11:30am`, `4 pm`, `09:00`, `14:00`. Normalized into 24-hour time (`16:00`) for conflict checks and rendered in human 12-hour format (`4:00 PM`).
 - **Phone numbers & validation:** Enforced exactly 10-digit mobile number validation (`^\d{10}$`) on bookings to guarantee reliable SMS/WhatsApp contact. `Meera Iyer` had no phone number in the original table; we preserved this record safely without throwing exceptions or breaking call/WhatsApp links.
+- **Duplicate Bookings in Mock Data (Riya Shah):** Riya Shah appears twice (Oct 24 at 10:00 AM and Oct 25 at 4:00 PM), directly violating the "no double booking" rule. This is typical of WhatsApp/Excel tracking where a reschedule is logged without deleting the old row. We preserved the historic record while building strict validation and atomic rescheduling so this cannot happen in software.
 - **Today's Date:** The mock schedule centers around `2026-10-24` as "Today", showing Riya and Arjun's appointments when filtering for today.
 
 ### Key Product Decisions
@@ -39,6 +40,7 @@ The assignment data contained real-world inconsistencies:
 7. **Dual-Mode Visual & JSON API Endpoint:** Navigating directly to `/api/appointments` in a browser renders a color-coded live appointments dashboard with summary stats and a collapsible raw JSON payload, while programmatic requests (`fetch` or `?format=json`) return pure JSON.
 8. **No "Testing As" Distractions:** Removed test persona dropdowns. The client app uses the user's phone session with a quiet "Switch number" option.
 9. **Doctor Landing & Patient Privacy Isolation:** First-time visitors see Dr. Maya Sen's bio and credentials with a direct "Book an appointment" button. We never default to another client's personal consultations on arrival.
+10. **Cancellation Safety Guard:** Protects clients from accidental cancellations with an explicit confirmation dialog before releasing their reserved slot.
 
 ---
 

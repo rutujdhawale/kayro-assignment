@@ -773,6 +773,11 @@ window.handleSendReminder = function(id) {
 };
 
 window.handleCancel = function(id) {
+  const item = store.appointments.find(a => a.id === id);
+  const details = item ? ` on ${formatHumanDate(item.date)} at ${formatHumanTime(item.time)}` : '';
+  const confirmed = window.confirm(`Are you sure you want to cancel your consultation${details}? Your reserved time slot will be released.`);
+  if (!confirmed) return;
+
   store.cancelAppointment(id);
   renderClient();
   renderDashboard();

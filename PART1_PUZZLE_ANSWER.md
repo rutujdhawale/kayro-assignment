@@ -14,6 +14,19 @@ People don’t skip a nutrition consultation because they "forgot." They skip be
 
 ---
 
+## The Hidden Culprit in the Sample Data: Duplicate Bookings
+Notice Maya's mock data: **Riya Shah is booked twice** (Oct 24 at 10:00 AM and Oct 25 at 4:00 PM). Yet the brief states clients shouldn't double-book.
+
+Why does this happen in real life?
+- A client texts on WhatsApp: *"Can we move my Saturday 10 AM slot to Sunday 4 PM?"*
+- Maya enters the new Sunday slot in Excel, but forgets to delete the Saturday row.
+- On Saturday at 10 AM, Maya waits. Riya assumes she rescheduled and doesn't show.
+- Maya tallies another "no-show" — but this wasn't client ghosting; it was **spreadsheet drift**.
+
+A real app must enforce **atomic rescheduling** (booking a new slot releases the old one in a single step) and block duplicate active bookings.
+
+---
+
 ## The Solution: A Low-Pressure, 3-Part Fix
 
 ### 1. The 2-Hour "Still Coming?" Pulse (3 Simple Options)
@@ -57,3 +70,4 @@ Unconfirmed at T-90m? ──► Marked "⚠️ Unconfirmed" on Dashboard
 - **No awkward typing:** Clients can communicate without fear or guilt.
 - **Saves sessions instead of losing them:** The phone switch prevents full dropouts.
 - **Protects the doctor's time:** Turns surprise ghosting into predictable advance notice.
+- **Eliminates spreadsheet drift:** Atomic rescheduling guarantees that rescheduled appointments never linger as phantom no-shows.
