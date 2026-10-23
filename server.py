@@ -3,9 +3,11 @@ import socketserver
 import json
 import os
 import urllib.parse
+import sys
 
 PORT = 3000
-DATA_FILE = os.path.join(os.path.dirname(__file__), 'appointments.json')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(BASE_DIR, 'appointments.json')
 
 RAW_SAMPLE_DATA = [
     {
@@ -32,17 +34,6 @@ RAW_SAMPLE_DATA = [
     },
     {
         "id": "apt-3",
-        "clientName": "Riya Shah",
-        "phone": "+91 98200 11111",
-        "date": "2026-10-25",
-        "time": "16:00",
-        "status": "Booked",
-        "confirmedArrival": False,
-        "reminderSent": False,
-        "format": "virtual"
-    },
-    {
-        "id": "apt-4",
         "clientName": "Meera Iyer",
         "phone": "",
         "date": "2026-10-23",
@@ -53,15 +44,15 @@ RAW_SAMPLE_DATA = [
         "format": "in-person"
     },
     {
-        "id": "apt-5",
+        "id": "apt-4",
         "clientName": "Kabir Rao",
         "phone": "+91 98200 33333",
         "date": "2026-10-22",
         "time": "14:00",
         "status": "No-show",
         "confirmedArrival": False,
-        "reminderSent": False,
-        "format": "virtual"
+        "reminderSent": True,
+        "format": "in-person"
     }
 ]
 
@@ -83,7 +74,7 @@ def save_data(data):
 
 def format_phone_display(phone):
     if not phone:
-        return '<span style="color:#A8A29E;">None</span>'
+        return '<span style="color:#B45309; background:#FEF3C7; padding:2px 8px; border-radius:4px; font-size:11.5px; font-weight:600;">No phone on file</span>'
     import re
     digits = re.sub(r'\D', '', str(phone))
     if len(digits) == 12 and digits.startswith('91'):
@@ -127,7 +118,6 @@ def render_api_html(data):
             <td style="padding:12px 14px;">{status_pill}</td>
             <td style="padding:12px 14px;">{confirmed}</td>
             <td style="padding:12px 14px;">{reminder}</td>
-            <td style="padding:12px 14px; font-size:12px; color:#78716C;">{a.get('format', 'in-person')}</td>
         </tr>
         """)
 
@@ -327,7 +317,6 @@ def render_api_html(data):
             <th>Status Code</th>
             <th>Arrival Status</th>
             <th>Reminder Sent</th>
-            <th>Format</th>
           </tr>
         </thead>
         <tbody>
@@ -427,7 +416,49 @@ class KayroServerHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
 if __name__ == '__main__':
-    os.chdir(os.path.dirname(__file__))
-    with socketserver.TCPServer(("", PORT), KayroServerHandler) as httpd:
-        print(f"Kayro server running at http://localhost:{PORT}")
+    if BASE_DIR:
+        os.chdir(BASE_DIR)
+
+    port = PORT
+    if len(sys.argv) > 1:
+        try:
+            port = int(sys.argv[1])
+        except ValueError:
+            pass
+    elif 'PORT' in os.environ:
+        try:
+            port = int(os.environ['PORT'])
+        except ValueError:
+            pass
+
+    socketserver.TCPServer.allow_reuse_address = True
+
+    candidate_ports = [port] + [p for p in [3000, 3001, 8000, 8080] if p != port]
+    httpd = None
+    active_port = None
+
+    for p in candidate_ports:
+        try:
+            httpd = socketserver.TCPServer(("", p), KayroServerHandler)
+            active_port = p
+            break
+        except OSError:
+            continue
+
+    if not httpd:
+        print(f"Error: Could not bind to any of the ports {candidate_ports}. Please free port {port} and try again.")
+        sys.exit(1)
+
+    print("\n========================================================", flush=True)
+    print("  Kayro Nourish Server is running!", flush=True)
+    print(f"  Client App:    http://localhost:{active_port}/", flush=True)
+    print(f"  Dashboard:     http://localhost:{active_port}/#dashboard", flush=True)
+    print(f"  API Endpoint:  http://localhost:{active_port}/api/appointments", flush=True)
+    print("========================================================\n", flush=True)
+    print("Press Ctrl+C to stop the server.\n", flush=True)
+
+    try:
         httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nServer stopped gracefully.")
+        httpd.server_close()

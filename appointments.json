@@ -3,12 +3,12 @@
     "id": "apt-1",
     "clientName": "Riya Shah",
     "phone": "+91 98200 11111",
-    "date": "2026-10-25",
-    "time": "09:00",
-    "status": "Cancelled",
+    "date": "2026-10-24",
+    "time": "10:00",
+    "status": "Booked",
     "confirmedArrival": false,
     "reminderSent": false,
-    "rescheduleCount": 1,
+    "rescheduleCount": 0,
     "format": "in-person"
   },
   {
@@ -24,9 +24,7 @@
     "format": "in-person"
   },
   {
-
-  {
-    "id": "apt-4",
+    "id": "apt-3",
     "clientName": "Meera Iyer",
     "phone": "",
     "date": "2026-10-23",
@@ -38,7 +36,7 @@
     "format": "in-person"
   },
   {
-    "id": "apt-5",
+    "id": "apt-4",
     "clientName": "Kabir Rao",
     "phone": "+91 98200 33333",
     "date": "2026-10-22",
@@ -47,6 +45,6 @@
     "confirmedArrival": false,
     "reminderSent": true,
     "rescheduleCount": 0,
-    "format": "virtual"
+    "format": "in-person"
   }
 ]

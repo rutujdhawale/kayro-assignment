@@ -15,8 +15,7 @@ const RAW_SAMPLE_DATA = [
     status: 'Booked',
     confirmedArrival: false,
     reminderSent: false,
-    rescheduleCount: 0,
-    format: 'in-person'
+    rescheduleCount: 0
   },
   {
     id: 'apt-2',
@@ -27,23 +26,10 @@ const RAW_SAMPLE_DATA = [
     status: 'Booked',
     confirmedArrival: true,
     reminderSent: true,
-    rescheduleCount: 0,
-    format: 'in-person'
+    rescheduleCount: 0
   },
   {
     id: 'apt-3',
-    clientName: 'Riya Shah',
-    phone: '+91 98200 11111',
-    rawDate: '25-10-2026',
-    rawTime: '4 pm',
-    status: 'Booked',
-    confirmedArrival: false,
-    reminderSent: false,
-    rescheduleCount: 0,
-    format: 'virtual'
-  },
-  {
-    id: 'apt-4',
     clientName: 'Meera Iyer',
     phone: '',
     rawDate: '23/10/2026',
@@ -51,20 +37,18 @@ const RAW_SAMPLE_DATA = [
     status: 'Done',
     confirmedArrival: true,
     reminderSent: true,
-    rescheduleCount: 0,
-    format: 'in-person'
+    rescheduleCount: 0
   },
   {
-    id: 'apt-5',
+    id: 'apt-4',
     clientName: 'Kabir Rao',
     phone: '+91 98200 33333',
     rawDate: '22/10/2026',
     rawTime: '14:00',
     status: 'No-show',
     confirmedArrival: false,
-    reminderSent: false,
-    rescheduleCount: 0,
-    format: 'virtual'
+    reminderSent: true,
+    rescheduleCount: 0
   }
 ];
 
@@ -265,8 +249,7 @@ class AppointmentStore {
       status,
       confirmedArrival: false,
       reminderSent: false,
-      rescheduleCount: 0,
-      format: 'in-person'
+      rescheduleCount: 0
     };
     this.appointments.push(newAppt);
     this.save();
@@ -634,6 +617,7 @@ function renderDashboard() {
     ? `<div class="card" style="text-align: center; color: var(--text-muted); font-size: 13px;">No consultations found.</div>`
     : visible.map(appt => {
         const clean = cleanPhone(appt.phone);
+        const hasPhone = Boolean(clean);
         const waLink = clean
           ? `https://wa.me/91${clean}?text=${encodeURIComponent(`Hi ${appt.clientName}, looking forward to our consultation today at ${formatHumanTime(appt.time)}.`)}`
           : null;
@@ -644,8 +628,8 @@ function renderDashboard() {
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
               <div>
                 <strong style="font-size: 14px;">${appt.clientName}</strong>
-                <div style="font-size: 12px; color: var(--text-muted);">
-                  ${appt.phone ? `<a href="tel:${clean}" style="color: inherit; text-decoration: none;">${formatPhoneDisplay(appt.phone)}</a>` : 'No phone'}
+                <div style="font-size: 12px; margin-top: 2px;">
+                  ${hasPhone ? `<a href="tel:${clean}" style="color: inherit; text-decoration: none;">${formatPhoneDisplay(appt.phone)}</a>` : '<span class="badge-no-phone">No phone on file</span>'}
                 </div>
               </div>
               <select class="select-status status-${appt.status.toLowerCase().replace(' ', '')}" onchange="handleStatusChange('${appt.id}', this.value)">
@@ -665,11 +649,13 @@ function renderDashboard() {
                 ${appt.confirmedArrival ? `<span class="marker-confirmed">✓ Confirmed</span>` : ''}
                 ${isRisk ? `<span class="marker-risk">⚠️ Unconfirmed</span>` : ''}
               </div>
-              <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="display: flex; gap: 8px; align-items: center;">
                 ${
-                  appt.reminderSent
-                    ? `<span class="remind-sent">✓ Sent</span>`
-                    : `<button class="btn-remind" onclick="handleSendReminder('${appt.id}')">Remind</button>`
+                  !hasPhone
+                    ? `<span class="badge-no-phone" title="Cannot remind: No phone number provided. Collect at clinic.">No phone</span>`
+                    : appt.reminderSent
+                      ? `<span class="remind-sent">✓ Sent</span>`
+                      : `<button class="btn-remind" onclick="handleSendReminder('${appt.id}')">Remind</button>`
                 }
                 ${waLink ? `<a href="${waLink}" target="_blank" class="link-wa">WhatsApp</a>` : ''}
               </div>
@@ -680,9 +666,10 @@ function renderDashboard() {
 
   // Table for desktop
   UI.dashboardTableBody.innerHTML = visible.length === 0
-    ? `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No consultations found.</td></tr>`
+    ? `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No consultations found.</td></tr>`
     : visible.map(appt => {
         const clean = cleanPhone(appt.phone);
+        const hasPhone = Boolean(clean);
         const waLink = clean
           ? `https://wa.me/91${clean}?text=${encodeURIComponent(`Hi ${appt.clientName}, looking forward to our consultation today at ${formatHumanTime(appt.time)}.`)}`
           : null;
@@ -691,7 +678,7 @@ function renderDashboard() {
         return `
           <tr>
             <td><strong>${appt.clientName}</strong></td>
-            <td>${appt.phone ? `<a href="tel:${clean}" style="color: inherit; text-decoration: none;">${formatPhoneDisplay(appt.phone)}</a>` : '<span style="color: var(--text-subtle);">None</span>'}</td>
+            <td>${hasPhone ? `<a href="tel:${clean}" style="color: inherit; text-decoration: none;">${formatPhoneDisplay(appt.phone)}</a>` : '<span class="badge-no-phone">No phone on file</span>'}</td>
             <td>${formatHumanDate(appt.date)}</td>
             <td>${formatHumanTime(appt.time)}</td>
             <td>
@@ -708,9 +695,11 @@ function renderDashboard() {
             </td>
             <td>
               ${
-                appt.reminderSent
-                  ? `<span class="remind-sent">✓ Sent</span>`
-                  : `<button class="btn-remind" onclick="handleSendReminder('${appt.id}')">Remind</button>`
+                !hasPhone
+                  ? `<span class="badge-no-phone" title="Cannot remind via WhatsApp/SMS: Missing contact info. Collect at clinic.">No phone</span>`
+                  : appt.reminderSent
+                    ? `<span class="remind-sent">✓ Sent</span>`
+                    : `<button class="btn-remind" onclick="handleSendReminder('${appt.id}')">Remind</button>`
               }
             </td>
             <td>
@@ -765,6 +754,11 @@ window.handleConfirmArrival = function(id) {
 };
 
 window.handleSendReminder = function(id) {
+  const item = store.appointments.find(a => a.id === id);
+  if (!item || !cleanPhone(item.phone)) {
+    showToast(`Cannot remind: ${item ? item.clientName : 'Client'} has no phone number on file.`);
+    return;
+  }
   const appt = store.markReminderSent(id);
   renderDashboard();
   if (appt) {

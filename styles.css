@@ -594,6 +594,18 @@ body {
   gap: 3px;
 }
 
+.badge-no-phone {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface-subtle);
+  border: 1px dashed var(--border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  font-style: italic;
+}
+
 /* ==========================================================================
    DASHBOARD SPECIFIC STYLES
    ========================================================================== */

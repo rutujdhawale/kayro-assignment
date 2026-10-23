@@ -13,7 +13,7 @@ module.exports = (req, res) => {
       "status": "Booked",
       "confirmedArrival": false,
       "reminderSent": false,
-      "format": "in-person"
+      "rescheduleCount": 0
     },
     {
       "id": "apt-2",
@@ -24,21 +24,10 @@ module.exports = (req, res) => {
       "status": "Booked",
       "confirmedArrival": true,
       "reminderSent": true,
-      "format": "in-person"
+      "rescheduleCount": 0
     },
     {
       "id": "apt-3",
-      "clientName": "Riya Shah",
-      "phone": "+91 98200 11111",
-      "date": "2026-10-25",
-      "time": "16:00",
-      "status": "Booked",
-      "confirmedArrival": false,
-      "reminderSent": false,
-      "format": "virtual"
-    },
-    {
-      "id": "apt-4",
       "clientName": "Meera Iyer",
       "phone": "",
       "date": "2026-10-23",
@@ -46,18 +35,18 @@ module.exports = (req, res) => {
       "status": "Done",
       "confirmedArrival": true,
       "reminderSent": true,
-      "format": "in-person"
+      "rescheduleCount": 0
     },
     {
-      "id": "apt-5",
+      "id": "apt-4",
       "clientName": "Kabir Rao",
       "phone": "+91 98200 33333",
       "date": "2026-10-22",
       "time": "14:00",
       "status": "No-show",
       "confirmedArrival": false,
-      "reminderSent": false,
-      "format": "virtual"
+      "reminderSent": true,
+      "rescheduleCount": 0
     }
   ];
 
