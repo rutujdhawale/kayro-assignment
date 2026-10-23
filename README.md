@@ -4,6 +4,16 @@ A calm, minimal, dual-sided appointments web app for wellness practices, built f
 
 ---
 
+## Demo Video
+
+<video src="demo.mp4" controls="controls" width="100%">
+ <a href="demo.mp4">Click here to play</a>.
+</video>
+
+*Direct link:* [Watch demo.mp4](demo.mp4)
+
+---
+
 ## 🚀 How to Run from Scratch
 
 ### 1. Prerequisites
@@ -33,7 +43,7 @@ python server.py
 
 ---
 
-## 🧭 How It Works
+## How It Works
 
 ### 1. Client View (`/`)
 - **Doctor Profile on Arrival:** When opened, visitors see Dr. Maya Sen's bio, credentials, and a direct button to **Book an appointment**. No other client's private bookings are ever exposed.
@@ -58,12 +68,12 @@ python server.py
 
 ---
 
-## 💡 What We Added & Why (In One Line)
+## What We Added & Why 
 > **We added an interactive 1-tap "Still Coming?" confirmation step that flags unconfirmed bookings early on the dashboard, paired with reminder tracking, confirmation on cancellation, and an explicit "Cancelled" status to free slots without corrupting attendance metrics.**
 
 ---
 
-## 🎬 2-Minute Demo Walkthrough
+## Demo Walkthrough
 
 1. **First Arrival (Doctor Profile):**
    - Open [http://localhost:3000](http://localhost:3000).
@@ -90,7 +100,7 @@ python server.py
 ---
 
 ## 📑 Assignment Deliverables
-- **[Part 1: Puzzle Answer](PART1_PUZZLE_ANSWER.md):** The behavioral psychology behind the 25% no-show problem and our 3-part fix.
-- **[Part 2: Product Documentation](DOCUMENTATION.md):** Product decisions, sample data normalization, trade-offs, and AI corrections.
-- **[Product Collaboration Log](CHAT_LOG.md):** Raw, unedited prompt logs showing product decision-making and AI direction.
+- **[Part 1: Puzzle Answer](PART1_PUZZLE_ANSWER.pdf):** The behavioral psychology behind the 25% no-show problem and our 3-part fix.
+- **[Part 2: Product Documentation](DOCUMENTATION.pdf):** Product decisions, sample data normalization, trade-offs, and AI corrections.
+- **[Product Collaboration Log](CHAT_LOG.pdf):** Raw, unedited prompt logs showing product decision-making and AI direction.
 - **[Original Brief](Kayro-Intern-Assignment.pdf):** The Kayro AI intern assignment prompt.
