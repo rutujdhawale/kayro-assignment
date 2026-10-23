@@ -10,7 +10,7 @@ A calm, minimal, dual-sided appointments web app for wellness practices, built f
  <a href="demo.mp4">Click here to play</a>.
 </video>
 
-*Direct link:* [Watch demo.mp4](demo.mp4)
+*Direct link:* [Watch demo](https://drive.google.com/file/d/1Jsg2hbgqvpntKS-YcMgAzsCD_dmugEy5/view?usp=sharing)
 
 ---
 
