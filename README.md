@@ -1,4 +1,4 @@
-# Kayro Nourish • Mindful Consultations Platform
+# Kayro Nourish • Mindful Consultations Platform Assignment
 
 A calm, minimal, dual-sided appointments web app for wellness practices, built for the **Kayro AI Product Intern Assignment**.
 
