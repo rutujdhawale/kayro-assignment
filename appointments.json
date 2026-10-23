@@ -7,9 +7,7 @@
     "time": "10:00",
     "status": "Booked",
     "confirmedArrival": false,
-    "reminderSent": false,
-    "rescheduleCount": 0,
-    "format": "in-person"
+    "reminderSent": false
   },
   {
     "id": "apt-2",
@@ -19,9 +17,7 @@
     "time": "11:30",
     "status": "Booked",
     "confirmedArrival": true,
-    "reminderSent": true,
-    "rescheduleCount": 0,
-    "format": "in-person"
+    "reminderSent": true
   },
   {
     "id": "apt-3",
@@ -31,9 +27,7 @@
     "time": "09:00",
     "status": "Done",
     "confirmedArrival": true,
-    "reminderSent": true,
-    "rescheduleCount": 0,
-    "format": "in-person"
+    "reminderSent": true
   },
   {
     "id": "apt-4",
@@ -43,8 +37,6 @@
     "time": "14:00",
     "status": "No-show",
     "confirmedArrival": false,
-    "reminderSent": true,
-    "rescheduleCount": 0,
-    "format": "in-person"
+    "reminderSent": true
   }
 ]
