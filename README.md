@@ -100,7 +100,7 @@ python server.py
 ---
 
 ## 📑 Assignment Deliverables
-- **[Part 1: Puzzle Answer](PART1_PUZZLE_ANSWER.pdf):** The behavioral psychology behind the 25% no-show problem and our 3-part fix.
+- **[Part 1: Puzzle Answer](PART1_PUZZLE_ANSWER.pdf):** The behavioral psychology behind the 25% no-show problem and 3-part fix.
 - **[Part 2: Product Documentation](DOCUMENTATION.pdf):** Product decisions, sample data normalization, trade-offs, and AI corrections.
 - **[Product Collaboration Log](CHAT_LOG.pdf):** Raw, unedited prompt logs showing product decision-making and AI direction.
 - **[Original Brief](Kayro-Intern-Assignment.pdf):** The Kayro AI intern assignment prompt.
